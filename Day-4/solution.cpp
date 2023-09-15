@@ -1,45 +1,61 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode() : val(0), next(nullptr) {}
+      ListNode(int x) : val(x), next(nullptr) {}
+      ListNode(int x, ListNode *next) : val(x), next(next) {}
+  };
+ 
 class Solution {
 public:
-    ListNode* reverse(ListNode* head,ListNode* end){
-        if(head==end || head-> next == end)
-            return head;
-        ListNode* chotaHead = reverse(head->next,end);
-        head -> next -> next = head;
-        head -> next = NULL;
-        return chotaHead;
-    }
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if(head == NULL || head->next == NULL || k==1)
-            return head;
-        ListNode * dummy = new ListNode(0);
-        ListNode* tail= dummy;
-        ListNode* temp2=head;
-        while(temp2!= NULL ){
-            ListNode* start = temp2;
-            int count = 0;
-            int n=k;
-            while(n-- && temp2!=NULL){
-                count++;
-                temp2= temp2->next;
-            }
-            ListNode* end = temp2;
-            
-            if(count<k){
-                tail -> next= start;
-            }
-            else tail -> next = reverse(start,end);
-            tail = start;
+    int lengthOfList(ListNode* head){
+        int count = 0;
+        while(head!=NULL){
+            head = head->next;
+            count++;
         }
-        return dummy->next;
+        return count;
+    }
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == NULL || head -> next == NULL)
+            return head;
+        int size = lengthOfList(head);
+        int rot = k%size;
+        if(rot==0)
+            return head;
+        ListNode* temp = head;
+        ListNode* ans;
+        int l = size - rot - 1;
+        int m = size - rot;
+        int count = 1;
+        while(l--)
+            temp = temp -> next;
+        ListNode* NewHead = temp->next;
+        ListNode* temp2=NewHead;
+        temp -> next = NULL;
+        while(temp2!=NULL && temp2->next!=NULL)
+            temp2=temp2->next;
+        temp2->next = head;
+        return NewHead;
+        // while(temp->next != NULL){
+        //     if(count == m){
+        //         ans = temp->next;
+        //         temp -> next = NULL;
+        //         temp = ans;
+        //         }
+        //     else
+        //         temp = temp->next;
+        //     count++;
+        // }
+        // temp->next = head;
+        // return ans;
     }
 };
+int main(){
+     //write here 
+      
+     return 0;
+}
